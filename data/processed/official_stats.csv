@@ -1,0 +1,53 @@
+record_id,period_start,period_end,metric,value,value_high,unit,value_type,source_id,note
+R001,2021-04-29,2021-04-29,waste_generated_per_day,14000,,tonnes/day,reported,S07,Stated as over 14000 metric tonnes daily by the Commissioner for the Environment
+R002,2021-04-29,2021-04-29,share_reaching_approved_dumpsites,70,,percent,reported,S07,About 70 percent to approved dumpsites and 30 percent to illegal sites
+R003,2021-04-29,2021-04-29,landfill_truck_trips_per_day,850,,trips/day,reported,S07,Average daily trips after increase from 357
+R004,2021-04-29,2021-04-29,landfill_truck_trips_per_day_before_increase,357,,trips/day,reported,S07,Earlier average daily trips; earlier date not stated
+R005,2021-04-29,2021-04-29,psp_operators_active,437,,operators,reported,S07,Increase from 350 operators
+R006,2021-04-29,2021-04-29,psp_compactors_acquired,210,,trucks,reported,S07,New compactors acquired by PSP operators
+R007,2020-01-01,2020-12-31,waste_collected_per_day,4263,,tonnes/day,reported,S10,World Bank citing Lagos Bureau of Statistics 2020; 33 percent of generation
+R008,2021-01-01,2021-12-31,waste_generated_per_day,13000,,tonnes/day,reported,S10,About 13000 metric tons per day; 4.75 million tonnes in 2021
+R009,2021-01-01,2021-12-31,share_collected_approved_channels,33,54,percent,reported,S10,Collected and disposed through approved channels
+R010,2025-04-01,2025-04-01,waste_generated_per_day,13000,,tonnes/day,reported,S04,
+R011,2025-04-01,2025-04-01,psp_operators_active,428,,operators,reported,S04,
+R012,2025-04-01,2025-04-01,compactor_trucks_deployed_daily,102,,trucks,reported,S04,Deployed daily in partnership with PSP operators
+R013,2025-12-03,2025-12-03,waste_generated_per_day,13000,15000,tonnes/day,reported,S06,
+R014,2025-12-03,2025-12-03,psp_collection_capacity_per_day,4000,5000,tonnes/day,reported,S06,What PSP operators are able to collect daily
+R015,2025-12-03,2025-12-03,psp_operators_active,450,,operators,reported,S06,
+R016,2026-05-01,2026-05-31,waste_received_disposal_facilities,418500,,tonnes,reported,S01,Stated as over 418500 tonnes; S05 describes it as received at disposal facilities
+R017,2026-05-01,2026-05-31,waste_evacuated_per_day_stated,13200,,tonnes/day,reported,S01,Stated average; conflicts with computed value (C02)
+R018,2026-05-01,2026-05-31,waste_received_per_day_computed,13500,,tonnes/day,derived,S01,418500 / 31 days [A01]
+R019,2026-06-12,2026-06-12,psp_operators_active,442,,operators,reported,S01,
+R020,2026-06-12,2026-06-12,compactor_trucks_deployed,77,,trucks,reported,S01,Also 5 skip trucks and 12 other operational units
+R021,2026-05-01,2026-05-31,blackspots_cleared,173,,blackspots,reported,S01,
+R022,2026-05-01,2026-05-31,complaints_and_service_requests,474,,requests,reported,S01,
+R023,2026-07-28,2026-08-03,waste_received_disposal_facilities,18660,,tonnes,reported,S02,Truck movements across disposal facilities per S09
+R024,2026-07-28,2026-08-03,disposal_truck_trips,1866,,trips,reported,S02,
+R025,2026-07-28,2026-08-03,waste_received_per_day_computed,2666,,tonnes/day,derived,S02,18660 / 7 days rounded to whole tonnes [A01]
+R026,2026-08-01,2026-08-01,waste_received_disposal_facilities,3490,,tonnes,reported,S02,Highest single day in the week
+R027,2026-08-01,2026-08-01,disposal_truck_trips,349,,trips,reported,S02,
+R028,2026-07-28,2026-08-03,olusosun_truck_trips,1012,,trips,reported,S02,
+R029,2026-07-21,2026-07-27,olusosun_truck_trips,574,,trips,reported,S02,Previous week; dates inferred as the seven days before 28 July
+R030,2026-08-16,2026-08-16,waste_generated_per_day,13000,15000,tonnes/day,reported,S03,
+R031,2026-08-16,2026-08-16,psp_operators_active,450,,operators,reported,S03,Approximate; stated as about 27 out of 450 withdrawn
+R032,2026-08-13,2026-08-13,waste_generated_per_day,13000,16000,tonnes/day,reported,S08,
+R033,2026-09-30,2026-09-30,waste_generated_per_day,13000,15000,tonnes/day,reported,S09,Commissioner for the Environment
+R034,2021-01-01,2021-12-31,lawma_budget_total_expenditure,20540862336.57,,naira,reported,S11,Approved appropriation; nominal [A05]
+R035,2021-01-01,2021-12-31,lawma_budget_capital_expenditure,1088654904.00,,naira,reported,S11,
+R036,2021-01-01,2021-12-31,lawma_budget_recurrent_expenditure,19452207432.57,,naira,reported,S11,
+R037,2022-01-01,2022-12-31,lawma_budget_total_expenditure,23221124101.00,,naira,reported,S12,
+R038,2022-01-01,2022-12-31,lawma_budget_capital_expenditure,5000000000.00,,naira,reported,S12,
+R039,2022-01-01,2022-12-31,lawma_budget_recurrent_expenditure,18221124101.00,,naira,reported,S12,
+R040,2024-01-01,2024-12-31,lawma_budget_total_expenditure,27229857541.10,,naira,reported,S13,
+R041,2024-01-01,2024-12-31,lawma_budget_capital_expenditure,3902817046.20,,naira,reported,S13,
+R042,2024-01-01,2024-12-31,lawma_budget_recurrent_expenditure,23327040494.90,,naira,reported,S13,
+R043,2025-01-01,2025-12-31,lawma_budget_total_expenditure,52210063683.20,,naira,reported,S14,
+R044,2025-01-01,2025-12-31,lawma_budget_capital_expenditure,11828576364.00,,naira,reported,S14,
+R045,2025-01-01,2025-12-31,lawma_budget_recurrent_expenditure,40381487319.20,,naira,reported,S14,
+R046,2026-01-01,2026-12-31,lawma_budget_total_expenditure,51000979973.30,,naira,reported,S15,
+R047,2026-01-01,2026-12-31,lawma_budget_capital_expenditure,9369492654.00,,naira,reported,S15,
+R048,2026-01-01,2026-12-31,lawma_budget_recurrent_expenditure,41631487319.30,,naira,reported,S15,
+R049,2022-01-01,2022-12-31,lawma_budget_independent_revenue,1484000000.00,,naira,reported,S12,
+R050,2024-01-01,2024-12-31,lawma_budget_independent_revenue,2300000000.00,,naira,reported,S13,
+R051,2025-01-01,2025-12-31,lawma_budget_independent_revenue,3000000000.00,,naira,reported,S14,
+R052,2026-01-01,2026-12-31,lawma_budget_independent_revenue,3850000000.00,,naira,reported,S15,
