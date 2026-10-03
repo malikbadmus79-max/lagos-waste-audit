@@ -1,0 +1,8 @@
+.venv/
+.env
+__pycache__/
+.ipynb_checkpoints/
+.pytest_cache/
+data/raw/survey/
+data/raw/osm/
+*.pbf
