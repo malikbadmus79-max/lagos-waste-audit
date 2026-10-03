@@ -6,3 +6,5 @@ __pycache__/
 data/raw/survey/
 data/raw/osm/
 *.pbf
+data/raw/news/
+*.egg-info/
