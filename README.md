@@ -54,7 +54,7 @@ The full comparison is in `notebooks/03_why_it_fails.ipynb`.
 | 2 Where it fails | 213 news articles collected from BusinessDay and the News Agency of Nigeria, 2021 to 2026; resident survey, 28 responses, 3 to 4 October 2026 [S17] | Articles tagged by a language model under a written protocol (`docs/tagging_protocol.md`), with a 50-article sample re-coded against the full text (agreement 90% to 98% per field) and corrections applied; survey cleaned and coded | `data/processed/complaints.csv`, `data/processed/survey_clean.csv`, `notebooks/02_where_it_fails.ipynb` |
 | 3 Why it fails | LAWMA PSP directory, January 2024 [S18]; 2006 census population by LGA [S19, S20]; OpenStreetMap landfill locations [S21]; GRID3 LGA boundaries [S16] | Operators and residents per operator by LGA; straight-line distance to the nearest active disposal site; Spearman rank correlations across LGAs; survey cross-tabulations | `data/processed/lga_indicators.csv`, `notebooks/03_why_it_fails.ipynb` |
 
-Every figure in `data/processed/` carries a source ID from `docs/sources.md` (24 sources, each rated High, Medium or Low for reliability). Disagreements between sources are recorded in `docs/data_conflicts.md` (9 conflicts) and assumptions in `docs/assumptions.md` (11 assumptions), and both are referenced by ID wherever they are used.
+Every figure in `data/processed/` carries a source ID from `docs/sources.md` (26 sources, each rated High, Medium or Low for reliability). Disagreements between sources are recorded in `docs/data_conflicts.md` (9 conflicts) and assumptions in `docs/assumptions.md` (11 assumptions), and both are referenced by ID wherever they are used.
 
 ## Limitations
 
