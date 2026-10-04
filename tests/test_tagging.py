@@ -190,3 +190,8 @@ def test_containment_bounds() -> None:
     a = tagging.shingles("one two three four five six seven")
     assert tagging.containment(a, a | {"x y z w v"}) == 1.0
     assert tagging.containment(set(), a) == 0.0
+
+
+def test_road_access_is_an_allowed_problem_type() -> None:
+    """Road access problems (hypothesis H3) have their own category."""
+    assert tagging.validate_tags(pd.DataFrame([tag_row(problem_types="road_access;missed_collection")]), IDS) == []

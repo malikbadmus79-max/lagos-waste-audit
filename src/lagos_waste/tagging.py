@@ -37,7 +37,7 @@ SINGLE_VALUES: dict[str, set[str]] = {
     "psp_named": {"yes", "no"},
 }
 MULTI_VALUES: dict[str, set[str]] = {
-    "problem_types": {"missed_collection", "waste_pileup", "illegal_dumping", "blocked_drains",
+    "problem_types": {"missed_collection", "waste_pileup", "illegal_dumping", "blocked_drains", "road_access",
                       "dumpsite_access", "fees_or_billing", "operator_capacity", "market_waste",
                       "other", "none"},
     "lgas": set(LGAS) | {"Lagos-wide", "unspecified"},
