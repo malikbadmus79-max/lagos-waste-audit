@@ -45,7 +45,8 @@ MULTI_VALUES: dict[str, set[str]] = {
                "traders", "none_stated", "other"},
 }
 CHECK_FIELDS = ["relevant", "article_type", "problem_types", "lgas", "blamed"]
-SAMPLE_SIZE = 50
+SAMPLE_RELEVANT = 30
+SAMPLE_NOT_RELEVANT = 20
 SAMPLE_SEED = 2026
 BATCH_SIZE = 25
 MAX_EVIDENCE_WORDS = 25
@@ -110,12 +111,29 @@ def next_batch(index: pd.DataFrame, tags: pd.DataFrame, size: int = BATCH_SIZE) 
     return [a for a in index["article_id"] if a not in done][:size]
 
 
-def draw_sample(tags: pd.DataFrame, n: int = SAMPLE_SIZE, seed: int = SAMPLE_SEED) -> pd.DataFrame:
-    """Random hand-check sample with empty check columns."""
-    sample = tags.sample(n=min(n, len(tags)), random_state=seed).sort_values("article_id").copy()
+def draw_sample(
+    tags: pd.DataFrame,
+    index: pd.DataFrame | None = None,
+    n_relevant: int = SAMPLE_RELEVANT,
+    n_not_relevant: int = SAMPLE_NOT_RELEVANT,
+    seed: int = SAMPLE_SEED,
+) -> pd.DataFrame:
+    """Hand-check sample stratified by relevance, with empty check columns.
+
+    Relevant articles are over-sampled so that location and blame tags can be
+    checked on enough rows; agreement is reported separately for each stratum.
+    """
+    parts = []
+    for value, n in (("yes", n_relevant), ("no", n_not_relevant)):
+        stratum = tags[tags["relevant"] == value]
+        parts.append(stratum.sample(n=min(n, len(stratum)), random_state=seed))
+    sample = pd.concat(parts).sort_values("article_id").copy()
+    if index is not None:
+        sample = sample.merge(index[["article_id", "title", "url"]], on="article_id", how="left")
     for field in CHECK_FIELDS:
         sample[f"check_{field}"] = ""
-    return sample
+    sample["check_notes"] = ""
+    return sample.reset_index(drop=True)
 
 
 def field_agrees(model: str, check: str, multi: bool) -> bool:
@@ -129,15 +147,17 @@ def field_agrees(model: str, check: str, multi: bool) -> bool:
 
 
 def accuracy(sample: pd.DataFrame) -> pd.DataFrame:
-    """Share of checked rows where the model tag agrees with the hand check, per field."""
+    """Share of checked rows where the model tag agrees with the hand check, per field and stratum."""
     rows = []
-    for field in CHECK_FIELDS:
-        checked = sample[sample[f"check_{field}"].astype(str).str.strip() != ""]
-        multi = field in MULTI_VALUES
-        agree = sum(field_agrees(m, c, multi) for m, c in zip(checked[field], checked[f"check_{field}"]))
-        n = len(checked)
-        rows.append({"field": field, "checked": n, "agree": agree,
-                     "agreement_pct": round(100 * agree / n, 1) if n else float("nan")})
+    groups = [("all", sample)] + [(f"relevant={v}", g) for v, g in sample.groupby("relevant")]
+    for stratum, data in groups:
+        for field in CHECK_FIELDS:
+            checked = data[data[f"check_{field}"].astype(str).str.strip() != ""]
+            multi = field in MULTI_VALUES
+            agree = sum(field_agrees(m, c, multi) for m, c in zip(checked[field], checked[f"check_{field}"]))
+            n = len(checked)
+            rows.append({"stratum": stratum, "field": field, "checked": n, "agree": agree,
+                         "agreement_pct": round(100 * agree / n, 1) if n else float("nan")})
     return pd.DataFrame(rows)
 
 
@@ -153,6 +173,15 @@ def normalise_title(title: str) -> str:
 TEXT_WINDOW_DAYS = 2
 SHINGLE_WORDS = 5
 CONTAINMENT_THRESHOLD = 0.8
+TITLE_SIMILARITY_THRESHOLD = 0.8
+
+
+def title_similarity(a: str, b: str) -> float:
+    """Jaccard similarity of the word sets of two normalised titles."""
+    wa, wb = set(normalise_title(a).split()), set(normalise_title(b).split())
+    if not wa or not wb:
+        return 0.0
+    return len(wa & wb) / len(wa | wb)
 
 
 def shingles(text: str, k: int = SHINGLE_WORDS) -> set[str]:
@@ -171,8 +200,8 @@ def containment(a: set[str], b: set[str]) -> float:
 def duplicate_groups(index: pd.DataFrame, texts: dict[str, str] | None = None) -> dict[str, str]:
     """Map each article_id to the earliest article_id it duplicates.
 
-    Two articles are duplicates when they share a normalised title within
-    DUPLICATE_WINDOW_DAYS, or, when texts are given, when they were published
+    Two articles are duplicates when their normalised titles are identical or share
+    at least 80% of their words within DUPLICATE_WINDOW_DAYS, or, when texts are given, when they were published
     within TEXT_WINDOW_DAYS and one text is at least 80% contained in the other.
     """
     df = index[["article_id", "date", "title"]].copy()
@@ -199,7 +228,7 @@ def duplicate_groups(index: pd.DataFrame, texts: dict[str, str] | None = None) -
             gap = (r2.dt - r1.dt).days
             if gap > DUPLICATE_WINDOW_DAYS:
                 break
-            if r1.norm == r2.norm:
+            if r1.norm == r2.norm or title_similarity(r1.norm, r2.norm) >= TITLE_SIMILARITY_THRESHOLD:
                 union(r1.article_id, r2.article_id)
             elif gap <= TEXT_WINDOW_DAYS and r1.article_id in sh and r2.article_id in sh:
                 if containment(sh[r1.article_id], sh[r2.article_id]) >= CONTAINMENT_THRESHOLD:
@@ -289,8 +318,10 @@ def main(argv: list[str] | None = None) -> None:
         if SAMPLE_PATH.exists():
             print(f"{SAMPLE_PATH.name} already exists; delete it first to redraw")
             return
-        draw_sample(tags).to_csv(SAMPLE_PATH, index=False)
-        print(f"Wrote {SAMPLE_PATH} ({min(SAMPLE_SIZE, len(tags))} rows)")
+        sample = draw_sample(tags, index)
+        sample.to_csv(SAMPLE_PATH, index=False)
+        print(f"Wrote {SAMPLE_PATH} ({len(sample)} rows: "
+              f"{(sample['relevant'] == 'yes').sum()} relevant, {(sample['relevant'] == 'no').sum()} not relevant)")
     elif args.command == "accuracy":
         sample = pd.read_csv(SAMPLE_PATH, dtype=str, keep_default_na=False)
         print(accuracy(sample).to_string(index=False))

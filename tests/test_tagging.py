@@ -71,12 +71,23 @@ def test_next_batch_skips_tagged() -> None:
     assert tagging.next_batch(INDEX, tags, size=5) == ["businessday-2", "nannews-3"]
 
 
-def test_sample_is_reproducible() -> None:
-    """The same seed draws the same sample, with empty check columns."""
-    tags = pd.DataFrame([tag_row(article_id=f"a{i}") for i in range(80)])
+def test_sample_is_stratified_and_reproducible() -> None:
+    """The sample holds 30 relevant and 20 not-relevant rows, drawn the same way each time."""
+    tags = pd.DataFrame(
+        [tag_row(article_id=f"y{i}") for i in range(60)]
+        + [tag_row(article_id=f"n{i}", relevant="no", problem_types="none") for i in range(60)]
+    )
     s1, s2 = tagging.draw_sample(tags), tagging.draw_sample(tags)
-    assert len(s1) == 50 and list(s1["article_id"]) == list(s2["article_id"])
-    assert (s1["check_lgas"] == "").all()
+    assert (s1["relevant"] == "yes").sum() == 30 and (s1["relevant"] == "no").sum() == 20
+    assert list(s1["article_id"]) == list(s2["article_id"])
+    assert (s1["check_lgas"] == "").all() and "check_notes" in s1
+
+
+def test_sample_adds_title_and_url() -> None:
+    """Titles and links are joined from the index for the hand checker."""
+    tags = pd.DataFrame([tag_row(article_id="businessday-1"), tag_row(article_id="businessday-2")])
+    s = tagging.draw_sample(tags, INDEX, n_relevant=2, n_not_relevant=0)
+    assert list(s["url"]) == ["u1", "u2"]
 
 
 def test_field_agrees() -> None:
@@ -94,9 +105,9 @@ def test_accuracy_counts_only_checked_rows() -> None:
         sample[f"check_{f}"] = ""
     sample.loc[0, "check_lgas"] = "ok"
     sample.loc[1, "check_lgas"] = "Ikeja"
-    acc = tagging.accuracy(sample).set_index("field")
-    assert acc.loc["lgas", "checked"] == 2 and acc.loc["lgas", "agree"] == 1
-    assert acc.loc["lgas", "agreement_pct"] == 50.0
+    acc = tagging.accuracy(sample)
+    row = acc[(acc["stratum"] == "all") & (acc["field"] == "lgas")].iloc[0]
+    assert row["checked"] == 2 and row["agree"] == 1 and row["agreement_pct"] == 50.0
 
 
 def test_normalise_title() -> None:
@@ -195,3 +206,22 @@ def test_containment_bounds() -> None:
 def test_road_access_is_an_allowed_problem_type() -> None:
     """Road access problems (hypothesis H3) have their own category."""
     assert tagging.validate_tags(pd.DataFrame([tag_row(problem_types="road_access;missed_collection")]), IDS) == []
+
+
+def test_near_identical_titles_are_grouped() -> None:
+    """Headlines differing by one word within seven days are treated as one article."""
+    index = pd.DataFrame({
+        "article_id": ["b-1", "b-2", "b-3"],
+        "date": ["2024-05-01", "2024-05-02", "2024-05-02"],
+        "title": ["Lagos residents decry heaps of refuse in Ikotun market area",
+                  "Lagos residents lament heaps of refuse in Ikotun market area",
+                  "LAWMA seals Oyingbo market over sanitation breach"],
+    })
+    canon = tagging.duplicate_groups(index)
+    assert canon["b-2"] == "b-1" and canon["b-3"] == "b-3"
+
+
+def test_title_similarity_bounds() -> None:
+    """Identical titles score 1 and disjoint titles score 0."""
+    assert tagging.title_similarity("a b c", "A, B, C") == 1.0
+    assert tagging.title_similarity("a b", "c d") == 0.0

@@ -2,7 +2,7 @@
 
 Protocol for tagging the articles listed in `data/interim/news_index.csv`. Article text is read from `data/raw/news/text/<article_id>.txt` (not version-controlled). Tags are written to `data/interim/news_tags.csv`, one row per article, and validated with `python -m lagos_waste.tagging validate`.
 
-Tagging is carried out with Claude Code in batches of 25 articles, following this protocol exactly. Only one tagging session runs at a time, because two sessions appending to the same file can tag the same batch twice. A random sample of 50 tagged articles is then checked by hand against the article text, and agreement is reported per field (`python -m lagos_waste.tagging sample` and `python -m lagos_waste.tagging accuracy`).
+Tagging is carried out with Claude Code in batches of 25 articles, following this protocol exactly. Only one tagging session runs at a time, because two sessions appending to the same file can tag the same batch twice. A sample of 50 tagged articles (30 tagged relevant and 20 tagged not relevant, drawn at random within each group) is then checked by hand against the article text, and agreement is reported per field and group (`python -m lagos_waste.tagging sample` and `python -m lagos_waste.tagging accuracy`).
 
 ## Output columns
 
@@ -40,7 +40,7 @@ Tagging is carried out with Claude Code in batches of 25 articles, following thi
 
 ## Duplicate articles
 
-Some outlets publish the same article twice under different IDs, sometimes with an added paragraph. Each copy is tagged as a separate row. `python -m lagos_waste.tagging build` treats two articles as one when they share a normalised title and were published within seven days of each other, or when they were published within two days of each other and at least 80% of the five-word sequences in the shorter text also appear in the longer text: the earliest ID is kept, and the values of `problem_types`, `lgas`, `place_names` and `blamed` are combined across the copies. `python -m lagos_waste.tagging duplicates` lists the groups found.
+Some outlets publish the same article twice under different IDs, sometimes with an added paragraph. Each copy is tagged as a separate row. `python -m lagos_waste.tagging build` treats two articles as one when their normalised titles are identical or share at least 80% of their words (Jaccard similarity) and they were published within seven days of each other, or when they were published within two days of each other and at least 80% of the five-word sequences in the shorter text also appear in the longer text: the earliest ID is kept, and the values of `problem_types`, `lgas`, `place_names` and `blamed` are combined across the copies. `python -m lagos_waste.tagging duplicates` lists the groups found.
 
 ## Use in analysis
 
@@ -52,6 +52,6 @@ Agege; Ajeromi-Ifelodun; Alimosho; Amuwo-Odofin; Apapa; Badagry; Epe; Eti-Osa; I
 
 ## Hand-check procedure
 
-1. `python -m lagos_waste.tagging sample` writes `data/interim/handcheck_sample.csv` with 50 randomly selected tagged articles (fixed seed 2026), the model tags, and empty `check_*` columns.
+1. `python -m lagos_waste.tagging sample` writes `data/interim/handcheck_sample.csv` with 30 randomly selected relevant and 20 randomly selected not-relevant articles (fixed seed 2026), their titles and links, the model tags, and empty `check_*` and `check_notes` columns. Relevant articles are over-sampled so that location and blame tags are checked on enough rows.
 2. For each row, the article is read in full and each `check_*` column is filled with `ok` when the model value is correct, or with the corrected value.
-3. `python -m lagos_waste.tagging accuracy` reports agreement per field. Agreement for `relevant`, `problem_types`, `lgas` and `blamed` is reported in the methods section of the brief.
+3. `python -m lagos_waste.tagging accuracy` reports agreement per field, for all rows and separately for each group. Agreement for `relevant`, `problem_types`, `lgas` and `blamed` is reported in the methods section of the brief.
