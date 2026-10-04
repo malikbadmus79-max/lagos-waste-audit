@@ -131,3 +131,39 @@ def trips_chart(
     ax.xaxis.set_major_formatter(matplotlib.ticker.StrMethodFormatter("{x:,.0f}"))
     ax.set_xlim(0, max(r[1] for r in rows) * 1.18)
     return _finish(fig, title, source, path)
+
+
+def grouped_hbar(
+    labels: list[str],
+    series: list[tuple[str, list[float]]],
+    title: str,
+    xlabel: str,
+    source: str,
+    path: Path | None = None,
+    value_format: str = "{:g}",
+    xmax: float | None = None,
+) -> Figure:
+    """Horizontal bars for one or two series per label, with value labels; labels run top to bottom.
+
+    `xmax` fixes the axis end (for example 100 for percentages); otherwise it follows the data.
+    """
+    n = len(series)
+    fig, ax = plt.subplots(figsize=(8.5, 0.32 * len(labels) * max(n, 1) + 1.6))
+    _style(ax)
+    height = 0.8 / n
+    top = max(max(vals) for _, vals in series) or 1
+    for k, (name, vals) in enumerate(series):
+        offset = (k - (n - 1) / 2) * height
+        colour = (SERIES_1, SERIES_2)[k]
+        ax.barh([i + offset for i in range(len(labels))], vals, height=height * 0.9, color=colour, label=name)
+        for i, v in enumerate(vals):
+            ax.text(v + top * 0.01, i + offset, value_format.format(v), va="center", fontsize=8, color=TEXT_PRIMARY)
+    ax.set_yticks(range(len(labels)), labels, fontsize=9, color=TEXT_PRIMARY)
+    ax.invert_yaxis()
+    ax.set_xlabel(xlabel, fontsize=9, color=TEXT_SECONDARY)
+    ax.set_xlim(0, xmax if xmax is not None else top * 1.15)
+    ax.xaxis.set_major_locator(matplotlib.ticker.MaxNLocator(integer=True))
+    if n > 1:
+        ax.legend(frameon=False, fontsize=9, loc="lower left", bbox_to_anchor=(0, 1.0), ncol=2,
+                  labelcolor=TEXT_PRIMARY)
+    return _finish(fig, title, source, path)

@@ -30,3 +30,11 @@ def test_trips_chart_saves_png(tmp_path: Path) -> None:
     out = tmp_path / "trips.png"
     charts.trips_chart([("Reported", 850, False), ("Derived", 1_350, True)], "Title", "Source: S07", out)
     assert out.is_file()
+
+
+def test_grouped_hbar_saves(tmp_path) -> None:
+    """One- and two-series horizontal bar charts are written to disk."""
+    from lagos_waste import charts as ch
+    ch.grouped_hbar(["a", "b"], [("x", [1, 2])], "t", "n", "Source: test", tmp_path / "one.png")
+    ch.grouped_hbar(["a", "b"], [("x", [1, 2]), ("y", [3, 0])], "t", "n", "Source: test", tmp_path / "two.png")
+    assert (tmp_path / "one.png").exists() and (tmp_path / "two.png").exists()
