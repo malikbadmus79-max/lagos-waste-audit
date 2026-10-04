@@ -1,0 +1,240 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-04T14:17:51Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "way",
+  "id": 542080588,
+  "center": {
+    "lat": 6.5490503,
+    "lon": 3.3859550
+  },
+  "tags": {
+    "description": "This land was used as a landfill for waste deposit by the State. Its an abandoned landfill.",
+    "landuse": "landfill",
+    "name": "Gbagada Landfill"
+  }
+},
+{
+  "type": "way",
+  "id": 591626786,
+  "center": {
+    "lat": 6.5945050,
+    "lon": 3.3769253
+  },
+  "tags": {
+    "alt_name": "Oluṣosun Landfill",
+    "landuse": "landfill",
+    "name": "Olushosun Landfill",
+    "operator": "LAWMA"
+  }
+},
+{
+  "type": "way",
+  "id": 705802151,
+  "center": {
+    "lat": 6.5642103,
+    "lon": 3.2527136
+  },
+  "tags": {
+    "landuse": "landfill"
+  }
+},
+{
+  "type": "way",
+  "id": 734244092,
+  "center": {
+    "lat": 6.6915350,
+    "lon": 3.2007230
+  },
+  "tags": {
+    "landuse": "landfill"
+  }
+},
+{
+  "type": "way",
+  "id": 741331452,
+  "center": {
+    "lat": 6.4649665,
+    "lon": 3.1915015
+  },
+  "tags": {
+    "landuse": "landfill",
+    "surface": "unpaved"
+  }
+},
+{
+  "type": "way",
+  "id": 746425957,
+  "center": {
+    "lat": 6.6394930,
+    "lon": 3.3018127
+  },
+  "tags": {
+    "landuse": "landfill",
+    "name": "Abule Egba Landfill",
+    "operator": "LAWMA"
+  }
+},
+{
+  "type": "way",
+  "id": 779138051,
+  "center": {
+    "lat": 6.6426615,
+    "lon": 3.4851781
+  },
+  "tags": {
+    "landuse": "landfill"
+  }
+},
+{
+  "type": "way",
+  "id": 783605169,
+  "center": {
+    "lat": 6.5560091,
+    "lon": 3.2874639
+  },
+  "tags": {
+    "landuse": "landfill"
+  }
+},
+{
+  "type": "way",
+  "id": 785706979,
+  "center": {
+    "lat": 6.5993811,
+    "lon": 3.5802910
+  },
+  "tags": {
+    "landuse": "landfill"
+  }
+},
+{
+  "type": "way",
+  "id": 786992206,
+  "center": {
+    "lat": 6.4783912,
+    "lon": 3.3493290
+  },
+  "tags": {
+    "landuse": "landfill"
+  }
+},
+{
+  "type": "way",
+  "id": 787813160,
+  "center": {
+    "lat": 6.6518185,
+    "lon": 3.3733117
+  },
+  "tags": {
+    "landuse": "landfill"
+  }
+},
+{
+  "type": "way",
+  "id": 787813167,
+  "center": {
+    "lat": 6.6637610,
+    "lon": 3.3763908
+  },
+  "tags": {
+    "landuse": "landfill"
+  }
+},
+{
+  "type": "way",
+  "id": 787813169,
+  "center": {
+    "lat": 6.6561646,
+    "lon": 3.3756643
+  },
+  "tags": {
+    "landuse": "landfill"
+  }
+},
+{
+  "type": "way",
+  "id": 787813175,
+  "center": {
+    "lat": 6.6578143,
+    "lon": 3.3534311
+  },
+  "tags": {
+    "landuse": "landfill"
+  }
+},
+{
+  "type": "way",
+  "id": 787813177,
+  "center": {
+    "lat": 6.6588557,
+    "lon": 3.3606738
+  },
+  "tags": {
+    "landuse": "landfill"
+  }
+},
+{
+  "type": "way",
+  "id": 787813178,
+  "center": {
+    "lat": 6.6569220,
+    "lon": 3.3576228
+  },
+  "tags": {
+    "landuse": "landfill"
+  }
+},
+{
+  "type": "way",
+  "id": 787827377,
+  "center": {
+    "lat": 6.6770472,
+    "lon": 3.3201833
+  },
+  "tags": {
+    "landuse": "landfill"
+  }
+},
+{
+  "type": "way",
+  "id": 787827399,
+  "center": {
+    "lat": 6.6790886,
+    "lon": 3.3754704
+  },
+  "tags": {
+    "landuse": "landfill"
+  }
+},
+{
+  "type": "way",
+  "id": 788314383,
+  "center": {
+    "lat": 6.5561435,
+    "lon": 3.3724969
+  },
+  "tags": {
+    "landuse": "landfill"
+  }
+},
+{
+  "type": "way",
+  "id": 789261066,
+  "center": {
+    "lat": 6.7379270,
+    "lon": 3.2145838
+  },
+  "tags": {
+    "landuse": "landfill"
+  }
+}
+
+  ]
+}

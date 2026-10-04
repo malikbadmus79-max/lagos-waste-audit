@@ -8,3 +8,5 @@ data/raw/osm/
 *.pbf
 data/raw/news/
 *.egg-info/
+data/raw/psp/
+data/raw/stats/
