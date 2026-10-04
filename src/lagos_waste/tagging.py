@@ -7,7 +7,8 @@ The protocol is in `docs/tagging_protocol.md`. Commands (from the repository roo
     python -m lagos_waste.tagging sample      draw the 50-article hand-check sample
     python -m lagos_waste.tagging accuracy    agreement between model tags and hand checks
     python -m lagos_waste.tagging duplicates  list articles published more than once
-    python -m lagos_waste.tagging build       write data/processed/complaints.csv
+    python -m lagos_waste.tagging build       write data/processed/complaints.csv, applying
+                                            verified corrections from the check sample
 """
 
 from __future__ import annotations
@@ -279,6 +280,23 @@ def is_service_failure(article_type: str, problem_types: str) -> str:
     return "yes" if article_type == "service_failure_report" or "missed_collection" in split_multi(problem_types) else "no"
 
 
+def apply_checks(tags: pd.DataFrame, sample: pd.DataFrame) -> tuple[pd.DataFrame, int]:
+    """Replace model tags with verified values wherever a check column holds a correction."""
+    out = tags.copy()
+    position = {aid: i for i, aid in zip(out.index, out["article_id"])}
+    changed = 0
+    for _, row in sample.iterrows():
+        i = position.get(row["article_id"])
+        if i is None:
+            continue
+        for field in CHECK_FIELDS:
+            value = str(row.get(f"check_{field}", "")).strip()
+            if value and value.lower() != "ok" and value != out.at[i, field]:
+                out.at[i, field] = value
+                changed += 1
+    return out, changed
+
+
 def build_complaints(index: pd.DataFrame, tags: pd.DataFrame, texts: dict[str, str] | None = None) -> pd.DataFrame:
     """One row per relevant (de-duplicated) article and LGA, joined to article metadata."""
     relevant = tags[tags["relevant"] == "yes"]
@@ -335,6 +353,9 @@ def main(argv: list[str] | None = None) -> None:
         for cid, members in dupes.items():
             print(f"  {cid}: {', '.join(m for m in members if m != cid)}")
     elif args.command == "build":
+        if SAMPLE_PATH.exists():
+            tags, changed = apply_checks(tags, pd.read_csv(SAMPLE_PATH, dtype=str, keep_default_na=False))
+            print(f"Applied {changed} verified corrections from {SAMPLE_PATH.name}")
         out = build_complaints(index, tags, load_texts(index))
         COMPLAINTS_PATH.parent.mkdir(parents=True, exist_ok=True)
         out.to_csv(COMPLAINTS_PATH, index=False)

@@ -225,3 +225,18 @@ def test_title_similarity_bounds() -> None:
     """Identical titles score 1 and disjoint titles score 0."""
     assert tagging.title_similarity("a b c", "A, B, C") == 1.0
     assert tagging.title_similarity("a b", "c d") == 0.0
+
+
+def test_apply_checks_uses_corrections_only() -> None:
+    """Corrected check values replace model tags; 'ok' and blank leave them unchanged."""
+    tags = pd.DataFrame([tag_row(article_id="a1"), tag_row(article_id="a2")])
+    sample = pd.DataFrame([
+        {"article_id": "a1", "check_relevant": "ok", "check_article_type": "ok", "check_problem_types": "ok",
+         "check_lgas": "Ikeja", "check_blamed": ""},
+        {"article_id": "a2", "check_relevant": "no", "check_article_type": "other", "check_problem_types": "none",
+         "check_lgas": "unspecified", "check_blamed": "none_stated"},
+    ])
+    out, changed = tagging.apply_checks(tags, sample)
+    assert out.loc[0, "lgas"] == "Ikeja" and out.loc[0, "blamed"] == "psp_operators"
+    assert out.loc[1, "relevant"] == "no" and changed == 6
+    assert tags.loc[0, "lgas"] == "Alimosho"

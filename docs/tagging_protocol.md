@@ -44,7 +44,7 @@ Some outlets publish the same article twice under different IDs, sometimes with 
 
 ## Use in analysis
 
-Counts of articles by LGA reflect where events were reported, which includes enforcement campaigns as well as service failure. `complaints.csv` therefore carries `is_service_failure`, set to `yes` when `article_type` is `service_failure_report` or `problem_types` includes `missed_collection`. Maps of service failure use only rows with `is_service_failure = yes`; enforcement and official statements are analysed separately.
+Counts of articles by LGA reflect where events were reported, which includes enforcement campaigns as well as service failure. `complaints.csv` therefore carries `is_service_failure`, set to `yes` when `article_type` is `service_failure_report` or `problem_types` includes `missed_collection`. Maps of service failure use only rows with `is_service_failure = yes`; enforcement and official statements are analysed separately. Before `complaints.csv` is written, corrected values from the verification sample (`check_*` columns other than `ok`) replace the model tags for those articles.
 
 ## LGA names
 
