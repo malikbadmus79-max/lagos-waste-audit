@@ -1,0 +1,21 @@
+lga,psp_operators,psp_ward_slots,directory_areas,population_2006_npc,population_2006_state,residents_per_operator_npc,residents_per_slot_npc,residents_per_operator_state,residents_per_slot_state,km_to_nearest_site,nearest_site,articles,failure_articles,failure_lga_weeks,survey_responses,survey_gap_over_14_days,failure_articles_per_million_npc,source_id
+Agege,16,17,2,461743,1033064,28859.0,27161.0,64566.0,60768.0,7.4,Olusosun,7,4,4,2,0,8.66,S16;S17;S18;S19;S20;S21;complaints.csv
+Ajeromi-Ifelodun,17,18,2,687316,1435295,40430.0,38184.0,84429.0,79739.0,15.0,Solous,10,8,8,1,0,11.64,S16;S17;S18;S19;S20;S21;complaints.csv
+Alimosho,71,77,6,1319571,2047026,18586.0,17137.0,28831.0,26585.0,2.0,Solous,18,8,8,8,3,6.06,S16;S17;S18;S19;S20;S21;complaints.csv
+Amuwo-Odofin,14,14,2,328975,524971,23498.0,23498.0,37498.0,37498.0,12.9,Solous,6,2,2,0,0,6.08,S16;S17;S18;S19;S20;S21;complaints.csv
+Apapa,11,14,2,222986,522384,20271.0,15928.0,47489.0,37313.0,17.2,Olusosun,3,2,2,1,0,8.97,S16;S17;S18;S19;S20;S21;complaints.csv
+Badagry,6,19,3,237731,380420,39622.0,12512.0,63403.0,20022.0,34.2,Solous,5,1,1,1,1,4.21,S16;S17;S18;S19;S20;S21;complaints.csv
+Epe,4,15,3,181734,323634,45434.0,12116.0,80908.0,21576.0,52.4,Ewu-Elepe,2,0,0,1,1,0.0,S16;S17;S18;S19;S20;S21;complaints.csv
+Eti-Osa,74,76,4,283791,983515,3835.0,3734.0,13291.0,12941.0,15.7,Ewu-Elepe,6,2,2,1,1,7.05,S16;S17;S18;S19;S20;S21;complaints.csv
+Ibeju-Lekki,10,19,2,117793,99540,11779.0,6200.0,9954.0,5239.0,33.9,Ewu-Elepe,3,1,1,1,1,8.49,S16;S17;S18;S19;S20;S21;complaints.csv
+Ifako-Ijaiye,19,23,2,427737,744323,22512.0,18597.0,39175.0,32362.0,10.7,Olusosun,1,0,0,4,1,0.0,S16;S17;S18;S19;S20;S21;complaints.csv
+Ikeja,26,29,3,317614,648720,12216.0,10952.0,24951.0,22370.0,3.4,Olusosun,11,4,4,0,0,12.59,S16;S17;S18;S19;S20;S21;complaints.csv
+Ikorodu,42,46,6,527917,689045,12569.0,11476.0,16406.0,14979.0,1.5,Ewu-Elepe,7,5,5,1,0,9.47,S16;S17;S18;S19;S20;S21;complaints.csv
+Kosofe,25,28,3,682772,934614,27311.0,24385.0,37385.0,33379.0,1.9,Olusosun,5,3,3,0,0,4.39,S16;S17;S18;S19;S20;S21;complaints.csv
+Lagos Island,2,4,1,212700,859849,106350.0,53175.0,429924.0,214962.0,16.1,Olusosun,5,1,1,2,1,4.7,S16;S17;S18;S19;S20;S21;complaints.csv
+Lagos Mainland,13,17,2,326700,629469,25131.0,19218.0,48421.0,37028.0,10.6,Olusosun,6,1,1,0,0,3.06,S16;S17;S18;S19;S20;S21;complaints.csv
+Mushin,19,21,2,631857,1321517,33256.0,30088.0,69554.0,62929.0,7.0,Olusosun,11,4,4,2,1,6.33,S16;S17;S18;S19;S20;S21;complaints.csv
+Ojo,16,18,3,609173,941523,38073.0,33843.0,58845.0,52307.0,14.7,Solous,2,0,0,0,0,0.0,S16;S17;S18;S19;S20;S21;complaints.csv
+Oshodi-Isolo,27,30,3,629061,1134548,23299.0,20969.0,42020.0,37818.0,7.3,Solous,10,6,6,2,1,9.54,S16;S17;S18;S19;S20;S21;complaints.csv
+Shomolu,15,17,2,403569,1025123,26905.0,23739.0,68342.0,60301.0,5.6,Olusosun,3,2,2,0,0,4.96,S16;S17;S18;S19;S20;S21;complaints.csv
+Surulere,24,26,3,502865,1274362,20953.0,19341.0,53098.0,49014.0,12.1,Olusosun,4,3,3,1,0,5.97,S16;S17;S18;S19;S20;S21;complaints.csv

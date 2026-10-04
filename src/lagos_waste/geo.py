@@ -87,53 +87,63 @@ def join_counts(lgas: gpd.GeoDataFrame, counts: pd.DataFrame, column: str) -> gp
 # Inset window for the dense central LGAs (min lon, min lat, max lon, max lat).
 CORE_BOUNDS = (3.24, 6.41, 3.46, 6.68)
 CORE_AREA_KM2 = 100.0  # LGAs smaller than this are labelled in the inset only
-# Label shifts in degrees (lon, lat) where neighbouring labels would overlap.
-LABEL_OFFSETS = {"Oshodi-Isolo": (-0.012, 0.0), "Mushin": (-0.004, -0.006), "Shomolu": (0.012, 0.006), "Lagos Island": (0.022, 0.006),
+# Label shifts in degrees (lon, lat) on the full-state map, clear of disposal-site markers.
+MAIN_LABEL_OFFSETS = {"Alimosho": (-0.035, 0.045), "Ikorodu": (0.06, 0.05)}
+# Label shifts in degrees (lon, lat) in the inset where neighbouring labels would overlap.
+LABEL_OFFSETS = {"Kosofe": (0.014, -0.012), "Oshodi-Isolo": (-0.012, 0.0), "Mushin": (-0.004, -0.006), "Shomolu": (0.012, 0.006), "Lagos Island": (0.022, 0.006),
                  "Apapa": (0.004, 0.0), "Ajeromi-Ifelodun": (-0.004, -0.012), "Lagos Mainland": (0.012, 0.0)}
 
 
 def _draw(gdf: gpd.GeoDataFrame, column: str, vmax: float, ax: plt.Axes, label: pd.Series,
-          offsets: bool = False) -> None:
+          offsets: dict[str, tuple[float, float]] | None = None) -> None:
     """Fill LGAs (zero in grey), outline them and write labels where `label` is True."""
-    colours = [NO_DATA if v <= 0 else matplotlib.colors.to_hex(RAMP(v / vmax)) for v in gdf[column]]
+    colours = [NO_DATA if pd.isna(v) or v <= 0 else matplotlib.colors.to_hex(RAMP(v / vmax)) for v in gdf[column]]
     gdf.plot(color=colours, edgecolor=EDGE, linewidth=0.8, ax=ax)
     for (_, row), show in zip(gdf.iterrows(), label):
         if not show:
             continue
         p = row.geometry.representative_point()
-        dx, dy = LABEL_OFFSETS.get(row["lga"], (0.0, 0.0)) if offsets else (0.0, 0.0)
-        ax.annotate(f"{row['lga']}\n{row[column]:g}", (p.x + dx, p.y + dy), ha="center", va="center", fontsize=6.5,
+        dx, dy = (offsets or {}).get(row["lga"], (0.0, 0.0))
+        value = "n/a" if pd.isna(row[column]) else f"{row[column]:g}"
+        ax.annotate(f"{row['lga']}\n{value}", (p.x + dx, p.y + dy), ha="center", va="center", fontsize=6.5,
                     color=TEXT_PRIMARY, bbox={"boxstyle": "round,pad=0.15", "fc": SURFACE, "ec": "none", "alpha": 0.75})
     ax.set_axis_off()
 
 
 def choropleth_png(
-    gdf: gpd.GeoDataFrame, column: str, title: str, legend: str, source: str, path: Path | None = None
+    gdf: gpd.GeoDataFrame, column: str, title: str, legend: str, source: str, path: Path | None = None,
+    points: pd.DataFrame | None = None,
 ) -> Figure:
     """Static choropleth: full state with large LGAs labelled, and an inset of the central LGAs.
 
     LGAs with a value of 0 are drawn in grey, separate from the colour ramp.
     """
-    vmax = max(float(gdf[column].max()), 1.0)
+    vmax = max(float(gdf[column].max(skipna=True)), 1.0)
     area = gdf.to_crs(32631).area / 1e6
     small = area < CORE_AREA_KM2
     fig = plt.figure(figsize=(11, 6.4))
     fig.patch.set_facecolor(SURFACE)
     ax_main = fig.add_axes((0.01, 0.42, 0.98, 0.46))
     ax_core = fig.add_axes((0.28, 0.06, 0.44, 0.38))
-    _draw(gdf, column, vmax, ax_main, ~small)
-    _draw(gdf, column, vmax, ax_core, small, offsets=True)
+    _draw(gdf, column, vmax, ax_main, ~small, MAIN_LABEL_OFFSETS if points is not None else None)
+    _draw(gdf, column, vmax, ax_core, small, LABEL_OFFSETS)
     x0, y0, x1, y1 = CORE_BOUNDS
     ax_core.set_xlim(x0, x1)
     ax_core.set_ylim(y0, y1)
     ax_main.plot([x0, x1, x1, x0, x0], [y0, y0, y1, y1, y0], color=TEXT_SECONDARY, linewidth=0.8)
     ax_core.set_title("Central LGAs (box above)", fontsize=8, color=TEXT_SECONDARY)
+    if points is not None:
+        for ax in (ax_main, ax_core):
+            ax.scatter(points["lon"], points["lat"], marker="^", s=46, color=TEXT_PRIMARY, edgecolor=SURFACE,
+                       linewidth=0.8, zorder=5)
+        fig.text(0.80, 0.035, "\u25b2 Active disposal site:\n" + ", ".join(points["site"]), fontsize=7,
+                 color=TEXT_SECONDARY, va="bottom")
     cax = fig.add_axes((0.78, 0.12, 0.012, 0.25))
     sm = plt.cm.ScalarMappable(cmap=RAMP, norm=plt.Normalize(0, vmax))
     bar = fig.colorbar(sm, cax=cax)
     bar.set_label(legend, fontsize=8, color=TEXT_SECONDARY)
     bar.ax.tick_params(labelsize=7, colors=TEXT_SECONDARY)
-    fig.text(0.80, 0.08, "Grey: none found", fontsize=7, color=TEXT_SECONDARY)
+    fig.text(0.80, 0.08, "Grey: zero or not available", fontsize=7, color=TEXT_SECONDARY)
     fig.suptitle(title, x=0.02, y=0.97, ha="left", fontsize=12, fontweight="bold", color=TEXT_PRIMARY)
     fig.text(0.02, 0.015, source, fontsize=7.5, color=TEXT_SECONDARY)
     if path is not None:

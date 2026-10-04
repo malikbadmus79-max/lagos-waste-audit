@@ -1,0 +1,4 @@
+site,lga,status_2026,lat,lon,osm_type,osm_id,osm_name,match,source_id
+Olusosun,Ikeja,"operating, end of life",6.5945,3.37693,way,591626786,Olushosun Landfill,named in OpenStreetMap,S21;S24
+Solous,Alimosho,"operating, end of life",6.56421,3.25271,way,705802151,,unnamed polygon nearest Igando [A11],S21;S24
+Ewu-Elepe,Ikorodu,operating,6.59938,3.58029,way,785706979,,unnamed polygon nearest Elepe [A11],S21;S22

@@ -1,0 +1,115 @@
+{
+ "Solous Landfill Lagos": [],
+ "Solous Igando Lagos": [],
+ "Ewu Elepe Ikorodu Lagos": [],
+ "Elepe Ikorodu Lagos": [
+  {
+   "place_id": 41143062,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "way",
+   "osm_id": 745470839,
+   "lat": "6.6146907",
+   "lon": "3.5690018",
+   "class": "amenity",
+   "type": "school",
+   "place_rank": 30,
+   "importance": 4.096360723273087e-05,
+   "addresstype": "amenity",
+   "name": "Elepe Community Secondary School",
+   "display_name": "Elepe Community Secondary School, Ijede Road, Elesin, \u00cck\u00f2r\u00f2d\u00fa, Lagos, 102101, Nigeria",
+   "boundingbox": [
+    "6.6131511",
+    "6.6159793",
+    "3.5669267",
+    "3.5711547"
+   ]
+  },
+  {
+   "place_id": 41487662,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "way",
+   "osm_id": 745470838,
+   "lat": "6.6161863",
+   "lon": "3.5660711",
+   "class": "amenity",
+   "type": "school",
+   "place_rank": 30,
+   "importance": 4.096360723273087e-05,
+   "addresstype": "amenity",
+   "name": "Methodist Primary School",
+   "display_name": "Methodist Primary School, Ijede Road, Elesin, \u00cck\u00f2r\u00f2d\u00fa, Lagos, 102101, Nigeria",
+   "boundingbox": [
+    "6.6156343",
+    "6.6167066",
+    "3.5654634",
+    "3.5666705"
+   ]
+  }
+ ],
+ "Epe Landfill Lagos": [],
+ "Igando Lagos": [
+  {
+   "place_id": 427822772,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "node",
+   "osm_id": 501496544,
+   "lat": "6.5486570",
+   "lon": "3.2310006",
+   "class": "place",
+   "type": "town",
+   "place_rank": 18,
+   "importance": 0.1600375013351644,
+   "addresstype": "town",
+   "name": "Igando",
+   "display_name": "Igando, Alimosho, Lagos, Nigeria",
+   "boundingbox": [
+    "6.5086570",
+    "6.5886570",
+    "3.1910006",
+    "3.2710006"
+   ]
+  },
+  {
+   "place_id": 41060597,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "node",
+   "osm_id": 501483763,
+   "lat": "6.4408307",
+   "lon": "3.8194997",
+   "class": "place",
+   "type": "village",
+   "place_rank": 19,
+   "importance": 0.14670666742961772,
+   "addresstype": "village",
+   "name": "Igando",
+   "display_name": "Igando, Ibeju Lekki, Lagos, Nigeria",
+   "boundingbox": [
+    "6.4208307",
+    "6.4608307",
+    "3.7994997",
+    "3.8394997"
+   ]
+  },
+  {
+   "place_id": 41090371,
+   "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+   "osm_type": "node",
+   "osm_id": 2582327475,
+   "lat": "6.4402599",
+   "lon": "3.1262370",
+   "class": "place",
+   "type": "village",
+   "place_rank": 19,
+   "importance": 0.14670666742961772,
+   "addresstype": "village",
+   "name": "Igando",
+   "display_name": "Igando, Ojo, Lagos, Nigeria",
+   "boundingbox": [
+    "6.4202599",
+    "6.4602599",
+    "3.1062370",
+    "3.1462370"
+   ]
+  }
+ ]
+}
